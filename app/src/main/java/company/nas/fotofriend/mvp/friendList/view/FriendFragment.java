@@ -148,7 +148,7 @@ public class FriendFragment extends Basefragment implements IFriendListView, Vie
     @Override
     public void showToast(String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-     
+
     }
 
     @Override
