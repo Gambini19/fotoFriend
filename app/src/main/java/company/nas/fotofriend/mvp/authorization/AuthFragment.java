@@ -2,7 +2,9 @@ package company.nas.fotofriend.mvp.authorization;
 
 
 import android.app.Fragment;
+import android.util.Log;
 import android.view.View;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
@@ -35,8 +37,10 @@ public class AuthFragment extends Basefragment {
         webSettings.setJavaScriptEnabled(true);
         wvAuth.setHorizontalScrollBarEnabled(false);
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+
         wvAuth.setWebViewClient(new VkWebViewClient());
         wvAuth.loadUrl("https://oauth.vk.com/authorize?client_id=6287930&scope=friends,notify,photos,photos,audio,video,docs,notes,pages,groups,offline&redirect_uri=https://oauth.vk.com/blank.html&display=mobile&v=5.5&response_type=token&revoke=1");
+
 
     }
 

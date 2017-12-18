@@ -76,16 +76,18 @@ public class FriendListInteractor implements IFriendListModel {
                 Realm realm = Realm.getDefaultInstance();
                 try {
                     text = response.body().string();
-                    Log.d("TAG" , "loadFriendGallery err 2 " + text);
                     JSONArray array = new JSONObject(text).getJSONArray("response");
-                    realm.beginTransaction();
-                    realm.createOrUpdateAllFromJson(Album.class, array);
-                    realm.commitTransaction();
+                    if (array != null && array.length() !=0)
+                    {
+                        realm.beginTransaction();
+                        realm.createOrUpdateAllFromJson(Album.class, array);
+                        realm.commitTransaction();
+                        listener.onLoadSuccess(getPersonGallery(userID));
 
-                    listener.onLoadSuccess(getPersonGallery(userID));
-
+                    }else {
+                        listener.onLoadFailed("Нет альбомов для показа");
+                    }
                 } catch (JSONException | IOException e) {
-                    Log.d("TAG" , "loadFriendGallery err " + e.getMessage());
                     listener.onLoadFailed(e.getMessage());
                 } finally {
                     realm.close();
@@ -93,7 +95,6 @@ public class FriendListInteractor implements IFriendListModel {
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.d("TAG" , "loadFriendGallery err " + t.getMessage());
                 listener.onLoadFailed(t.getMessage());
 
             }
@@ -109,7 +110,6 @@ public class FriendListInteractor implements IFriendListModel {
                 Realm realm = Realm.getDefaultInstance();
                 try {
                     text = response.body().string();
-                    Log.d("TAG" , "loadFriendGallery err 3 " + text);
                     JSONObject object = new JSONObject(text);
                     if (object.has("error"))
                     {
@@ -118,14 +118,18 @@ public class FriendListInteractor implements IFriendListModel {
                     }
                     else if (object.has("response")) {
                         JSONArray array = new JSONObject(text).getJSONArray("response");
-                        realm.beginTransaction();
-                        realm.createOrUpdateAllFromJson(Photo.class, array);
-                        realm.commitTransaction();
-                    }
+                        if (array != null && array.length() !=0) {
+                            realm.beginTransaction();
+                            realm.createOrUpdateAllFromJson(Photo.class, array);
+                            realm.commitTransaction();
 
-                    if (getAlbumFoto(userID, albumID) != null)
-                    {
-                        listener.onLoadSuccess(getAlbumFoto(userID, albumID));
+
+                            if (getAlbumFoto(userID, albumID) != null) {
+                                listener.onLoadSuccess(getAlbumFoto(userID, albumID));
+                            }
+                        }
+                        else listener.onLoadFailed("В альбоме нет фото для показа");
+
                     }
 
                 } catch (JSONException | IOException e) {
@@ -136,7 +140,6 @@ public class FriendListInteractor implements IFriendListModel {
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.d("TAG" , "loadFriendGallery err " + t.getMessage());
                 listener.onLoadFailed(t.getMessage());
             }
         });
@@ -197,6 +200,6 @@ public class FriendListInteractor implements IFriendListModel {
             realm.close();
         }
 
-        return personList;
+        return null;
     }
 }

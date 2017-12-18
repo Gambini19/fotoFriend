@@ -11,7 +11,7 @@ import io.realm.RealmObject;
 public interface IFriendListView {
     void getUserData();
     void showFriends(List<? extends RealmObject> personList);
-    void showToast(String message);
+    void showToast(String message , boolean isBackPressed);
     void showProgress();
     void hideProgress();
 

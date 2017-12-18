@@ -27,7 +27,7 @@ public class FriendListPresenter implements IFriendListPresenter, ILoadUsers{
             case Constant.GALLERY:
                 if (userID != 0)
                 interactor.loadFriendGallery(token,userID, this);
-                else view.showToast("Нет данных по пользователю с ID= " + userID);
+                else view.showToast("Нет данных по пользователю с ID= " + userID, true);
                 break;
 
         }
@@ -55,7 +55,7 @@ public class FriendListPresenter implements IFriendListPresenter, ILoadUsers{
     @Override
     public void onLoadFailed(String message) {
         view.hideProgress();
-        view.showToast(message);
+        view.showToast(message, true);
     }
 
 

@@ -146,8 +146,13 @@ public class FriendFragment extends Basefragment implements IFriendListView, Vie
         return width;
     }
     @Override
-    public void showToast(String message) {
+    public void showToast(String message, boolean isBackPressedNeed) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+        if (isBackPressedNeed)
+        {
+            getActivity().onBackPressed();
+        }
+
 
     }
 
